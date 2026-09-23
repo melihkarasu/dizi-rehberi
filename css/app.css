@@ -1,0 +1,6 @@
+.show-card:hover .poster-zoom {
+          transform: scale(1.04);
+        }
+        .episode-row:hover {
+          background-color: rgba(30, 41, 59, 0.7);
+        }
