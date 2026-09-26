@@ -3,40 +3,290 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dizi & Sezon Takipçisi - Standalone</title>
+  <title>Dizi & Sezon Takipçisi</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23fa520f' stroke='%2344403c' stroke-width='1.5'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system,BlinkMacSystemFont,Inter,sans-serif' font-weight='800' font-size='13' letter-spacing='-0.5'%3EMK%3C/text%3E%3C/svg%3E">
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/mistral-theme.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231c1917' stroke='%2344403c' stroke-width='1.5'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system,BlinkMacSystemFont,Inter,sans-serif' font-weight='800' font-size='13' letter-spacing='-0.5'%3EMK%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/style.css">
-  
+  <link rel="stylesheet" href="css/mistral-theme.css">
+  <link rel="stylesheet" href="css/app.css">
   <style>
-    :root { --mistral-ink: #1c1917; --mistral-slate: #78716c; --mistral-stone: #a8a29e; --mistral-hairline: #e7e5e4; --mistral-cream: #f5f5f4; --mistral-beige-deep: #d6d3d1; }
-    body { font-family: 'Inter', sans-serif; background-color: #fafaf9; color: var(--mistral-ink); }
-    h1, h2, .font-editorial { font-family: 'Newsreader', serif; }
+    :root {
+      --mistral-ink: #1c1917;
+      --mistral-slate: #78716c;
+      --mistral-stone: #a8a29e;
+      --mistral-hairline: #e7e5e4;
+      --mistral-cream: #f5f5f4;
+      --mistral-cream-deeper: #e7e5e4;
+      --mistral-cream-light: #fafaf9;
+      --mistral-beige-deep: #d6d3d1;
+      --mistral-orange: #fa520f;
+      --mistral-orange-deep: #e04400;
+    }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #fafaf9; color: var(--mistral-ink); }
+    h1, h2, h3, h4, .font-editorial { font-family: 'Newsreader', serif; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .bg-mistral-cream { background-color: var(--mistral-cream); }
+    .bg-mistral-cream-deeper { background-color: var(--mistral-cream-deeper); }
+    .bg-mistral-cream-light { background-color: var(--mistral-cream-light); }
     .text-mistral-ink { color: var(--mistral-ink); }
     .text-mistral-slate { color: var(--mistral-slate); }
     .text-mistral-stone { color: var(--mistral-stone); }
-    .bg-mistral-cream { background-color: var(--mistral-cream); }
+    .text-mistral-orange { color: var(--mistral-orange); }
+    .bg-mistral-orange { background-color: var(--mistral-orange); }
     .border-mistral-hairline { border-color: var(--mistral-hairline); }
-    .bg-mistral-canvas { background-color: #0f172a; }
+    .border-mistral-beige-deep { border-color: var(--mistral-beige-deep); }
+    .hover\\:text-mistral-ink:hover { color: var(--mistral-ink) !important; }
   </style>
 </head>
-<body class="p-4 md:p-8">
-  <div class="max-w-6xl mx-auto">
+<body class="p-4 sm:p-8">
+  <div class="max-w-7xl mx-auto">
     <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div>
-        <div class="flex items-center gap-3">
-          <a href="https://github.com/melihkarasu" target="_blank" class="text-mistral-slate hover:text-teal-500 transition text-sm flex items-center gap-1">&larr; GitHub Profiline Dön</a>
-          <span class="text-mistral-stone">|</span>
-          <span class="px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-600 text-xs font-semibold">Open Source Edition</span>
+        <div>
+          <div class="flex items-center gap-3">
+            
+          </div>
+          <h1 class="text-3xl font-extrabold tracking-tight mt-1 text-mistral-ink flex items-center gap-2">
+            <span>🎬</span> Dizi & Sezon Takipçisi
+          </h1>
+          <p class="text-mistral-slate text-sm mt-0.5">
+            IMDb & TVmaze entegrasyonu ile bölüm takibi, sezon ajandası ve IMDb linkiyle özel yapım ekleme.
+          </p>
         </div>
-        <h1 class="text-3xl sm:text-4xl font-normal font-editorial tracking-tight mt-1.5 text-mistral-ink flex items-center gap-2"><span>🎬</span> Dizi & Sezon Takipçisi</h1>
+
+        <!-- İstatistik Mini Rozeti -->
+        <div class="flex items-center gap-3 p-2.5 px-4 rounded-2xl bg-white border border-mistral-hairline shadow-lg text-xs">
+          <div class="text-center pr-3 border-r border-mistral-hairline">
+            <span class="text-[10px] text-mistral-slate block uppercase">İzlenen Bölüm</span>
+            <span id="badge-total-episodes" class="font-extrabold text-blue-400 font-mono text-sm">0</span>
+          </div>
+          <div class="text-center">
+            <span class="text-[10px] text-mistral-slate block uppercase">Dizi/Film</span>
+            <span id="badge-total-shows" class="font-extrabold text-mistral-ink font-mono text-sm">0</span>
+          </div>
+        </div>
       </div>
-    </div>
-    
+
+      <!-- 1. IMDB LİNKİ İLE EKLEME VE ARAMA PANELİ -->
+      <div class="p-6 rounded-3xl bg-white border border-mistral-hairline shadow-xl mb-8 space-y-6">
+        
+        <!-- Üst: IMDb Linki ile Özel Ekleme -->
+        <div class="p-5 rounded-2xl bg-white from-amber-500/10   border border-amber-500/30">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-black text-[10px] tracking-wider">IMDb</span>
+            <h2 class="text-sm font-bold text-mistral-ink">IMDb Bağlantısı ile Dizi/Film Ekle</h2>
+          </div>
+          <p class="text-mistral-slate text-xs mb-3">
+            Sistemde olmayan herhangi bir yapımı doğrudan IMDb sayfa linkini veya ID'sini (tt...) girerek tüm bölümleriyle listenize çekin:
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-1">
+              <input type="text" id="input-imdb-url" placeholder="https://www.imdb.com/title/tt0903747/ veya tt0903747" onkeyup="if(event.key==='Enter') addByImdbUrl()" class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-mistral-canvas border border-mistral-hairline text-sm text-mistral-ink placeholder-slate-500 focus:border-amber-400 focus:outline-none font-mono">
+              <span class="absolute left-3.5 top-3 text-amber-500 text-xs font-bold">★</span>
+            </div>
+            <button onclick="addByImdbUrl()" id="btn-imdb-add" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition shadow-lg shadow-amber-500/20 flex items-center justify-center gap-1.5 shrink-0">
+              <span>📥</span> IMDb'den Çek & Ekle
+            </button>
+          </div>
+          <!-- Hazır Örnek Linkler -->
+          <div class="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
+            <span class="text-mistral-stone text-[11px]">Hızlı Örnekler:</span>
+            <button onclick="quickImdb('tt0903747')" class="text-[11px] text-amber-400 hover:underline">Breaking Bad</button>
+            <span class="text-slate-700">•</span>
+            <button onclick="quickImdb('tt1534360')" class="text-[11px] text-amber-400 hover:underline">Ezel</button>
+            <span class="text-slate-700">•</span>
+            <button onclick="quickImdb('tt1375666')" class="text-[11px] text-amber-400 hover:underline">Inception (Film)</button>
+            <span class="text-slate-700">•</span>
+            <button onclick="quickImdb('tt0944947')" class="text-[11px] text-amber-400 hover:underline">Game of Thrones</button>
+            <span class="text-slate-700">•</span>
+            <button onclick="quickImdb('tt0421384')" class="text-[11px] text-amber-400 hover:underline">Kurtlar Vadisi</button>
+          </div>
+        </div>
+
+        <!-- Alt: Başlıkla Hızlı Arama -->
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-mistral-slate mb-2">Veya İsimle Dizi Ara</label>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-1">
+              <input type="text" id="input-title-search" placeholder="Dizi adı yazın (Örn: Succession, Dark, The Last of Us, Peaky Blinders)..." onkeyup="if(event.key==='Enter') searchShowsByName()" class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-mistral-hairline text-sm text-mistral-ink placeholder-slate-500 focus:border-blue-400 focus:outline-none">
+              <span class="absolute left-3.5 top-3 text-mistral-stone text-sm">🔍</span>
+            </div>
+            <button onclick="searchShowsByName()" class="px-5 py-2.5 rounded-xl text-mistral-ink font-bold bg-mistral-cream-light hover:bg-mistral-cream-deeper text-mistral-ink font-bold font-semibold text-xs transition shrink-0">
+              Dizi Ara
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 2. İZLEME LİSTESİ SEKMELERİ (WATCHLIST TABS) -->
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div class="flex p-1 rounded-xl bg-white border border-mistral-hairline">
+          <button onclick="filterWatchlist('watching')" id="btn-tab-watching" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-blue-500 text-white transition flex items-center gap-1.5 shadow">
+            <span>👁️</span> İzleniyor (<span id="count-watching">0</span>)
+          </button>
+          <button onclick="filterWatchlist('plan')" id="btn-tab-plan" class="px-4 py-1.5 rounded-lg text-xs font-bold text-mistral-slate hover:text-white transition flex items-center gap-1.5">
+            <span>⏳</span> İzlenecek (<span id="count-plan">0</span>)
+          </button>
+          <button onclick="filterWatchlist('completed')" id="btn-tab-completed" class="px-4 py-1.5 rounded-lg text-xs font-bold text-mistral-slate hover:text-white transition flex items-center gap-1.5">
+            <span>✅</span> Tamamlandı (<span id="count-completed">0</span>)
+          </button>
+          <button onclick="filterWatchlist('all')" id="btn-tab-all" class="px-4 py-1.5 rounded-lg text-xs font-bold text-mistral-slate hover:text-white transition flex items-center gap-1.5">
+            <span>📂</span> Tümü (<span id="count-all">0</span>)
+          </button>
+        </div>
+
+        <div id="search-results-banner" class="hidden text-xs text-blue-400 font-semibold flex items-center gap-2">
+          <span>🔍 Arama Sonuçları Gösteriliyor</span>
+          <button onclick="clearSearchResults()" class="text-mistral-slate hover:text-white underline">İzleme Listeme Dön</button>
+        </div>
+      </div>
+
+      <!-- 3. DİZİ / FİLM KARTLARI GRİDİ -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="shows-grid">
+        <!-- JS ile kartlar -->
+      </div>
+
+      <div id="loading-spinner" class="hidden py-16 text-center text-mistral-slate text-sm flex flex-col items-center gap-3">
+        <div class="w-8 h-8 rounded-full border-2 border-blue-500 border-t-transparent animate-spin"></div>
+        <span id="loading-text">IMDb verileri ve bölümler yükleniyor...</span>
+      </div>
+
+      <div id="empty-state" class="p-12 text-center rounded-3xl bg-white border border-mistral-hairline text-mistral-stone text-sm">
+        <div class="text-4xl mb-3">🎬</div>
+        <h3 class="font-bold text-base text-mistral-slate mb-1">İzleme Listeniz Boş</h3>
+        <p class="text-xs text-mistral-slate max-w-md mx-auto">
+          Yukarıdan bir IMDb bağlantısı yapıştırarak veya dizi adı aratarak listenize yapım ekleyebilirsiniz.
+        </p>
+      </div>
+
+      <!-- 4. İZLEME İSTATİSTİKLERİ VE ZAMAN GRAFİĞİ -->
+      <div class="mt-14 pt-8 border-t border-mistral-hairline space-y-6">
+        <div>
+          <h2 class="text-xl font-bold text-mistral-ink flex items-center gap-2">
+            <span>📊</span> İzleme İstatistiklerim
+          </h2>
+          <p class="text-mistral-slate text-xs mt-0.5">
+            İzlediğiniz dizi ve filmlere dayalı süre ve içerik tüketim analizi.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="p-5 rounded-2xl bg-white border border-mistral-hairline text-center">
+            <span class="text-[10px] text-mistral-slate uppercase font-semibold">Toplam Yapım</span>
+            <div id="stat-total-shows" class="text-2xl font-black text-white font-mono mt-1">0</div>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-mistral-hairline text-center">
+            <span class="text-[10px] text-mistral-slate uppercase font-semibold">İzlenen Bölüm</span>
+            <div id="stat-total-episodes" class="text-2xl font-black text-blue-400 font-mono mt-1">0</div>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-mistral-hairline text-center">
+            <span class="text-[10px] text-mistral-slate uppercase font-semibold">Toplam Ekran Süresi</span>
+            <div id="stat-total-time" class="text-xl font-black text-emerald-400 font-mono mt-1">0 Saat</div>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-mistral-hairline text-center">
+            <span class="text-[10px] text-mistral-slate uppercase font-semibold">Ortalama Puan</span>
+            <div id="stat-avg-rating" class="text-2xl font-black text-amber-400 font-mono mt-1">⭐ 0.0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. BÖLÜM VE SEZON TAKİP MODALI (EPISODE TRACKER MODAL) -->
+      <div id="tracker-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="relative w-full max-w-3xl bg-white border border-mistral-hairline rounded-3xl overflow-hidden shadow-2xl max-h-[92vh] flex flex-col">
+          
+          <!-- Kapat Butonu -->
+          <button onclick="closeTrackerModal()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white hover:bg-white text-mistral-slate hover:text-white flex items-center justify-center transition border border-mistral-hairline text-sm">
+            ✕
+          </button>
+
+          <!-- Modal Başlık Bölümü -->
+          <div class="p-6 bg-white border-b border-mistral-hairline flex flex-col sm:flex-row items-center sm:items-start gap-5 shrink-0">
+            <div class="relative w-28 h-40 rounded-2xl overflow-hidden shadow-xl bg-mistral-canvas shrink-0">
+              <img id="modal-poster-img" src="" class="w-full h-full object-cover">
+            </div>
+
+            <div class="flex-1 text-center sm:text-left min-w-0">
+              <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1.5">
+                <span id="modal-imdb-badge" class="px-2 py-0.5 rounded-lg bg-amber-500/20 text-amber-400 font-black text-xs font-mono"></span>
+                <span id="modal-year-badge" class="px-2 py-0.5 rounded-lg bg-white text-mistral-slate text-xs font-mono"></span>
+                <span id="modal-type-badge" class="px-2 py-0.5 rounded-lg bg-blue-500/20 text-blue-400 text-xs font-semibold uppercase"></span>
+              </div>
+              <h2 id="modal-title" class="text-2xl font-black text-mistral-ink truncate"></h2>
+              <p id="modal-genres" class="text-xs text-mistral-slate mt-0.5 truncate"></p>
+              
+              <!-- İzleme Durumu ve Puanlama Seçicisi -->
+              <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-4 pt-3 border-t border-mistral-hairline">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-mistral-slate">Durum:</span>
+                  <select id="modal-status-select" onchange="updateModalStatus()" class="px-3 py-1.5 rounded-xl bg-white border border-mistral-hairline text-xs text-mistral-ink font-semibold">
+                    <option value="watching">👁️ İzleniyor</option>
+                    <option value="plan">⏳ İzlenecek</option>
+                    <option value="completed">✅ Tamamlandı</option>
+                  </select>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-mistral-slate">Puanım:</span>
+                  <select id="modal-user-rating" onchange="updateModalUserRating()" class="px-3 py-1.5 rounded-xl bg-white border border-mistral-hairline text-xs text-amber-400 font-bold">
+                    <option value="0">Puansız</option>
+                    <option value="10">⭐ 10 (Başyapıt)</option>
+                    <option value="9">⭐ 9 (Harika)</option>
+                    <option value="8">⭐ 8 (Çok İyi)</option>
+                    <option value="7">⭐ 7 (İyi)</option>
+                    <option value="6">⭐ 6 (Fena Değil)</option>
+                    <option value="5">⭐ 5 (Orta)</option>
+                  </select>
+                </div>
+
+                <button onclick="removeShowFromWatchlist()" class="text-xs text-rose-400 hover:underline ml-auto">
+                  Listeden Sil
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- İlerleme Özeti Çubuğu -->
+          <div class="px-6 py-3 bg-white border-b border-mistral-hairline flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-mistral-slate">İlerleme:</span>
+              <span id="modal-progress-text" class="font-bold text-blue-400 font-mono">0 / 0 Bölüm (%0)</span>
+            </div>
+            <div class="w-48 h-2 rounded-full bg-white overflow-hidden">
+              <div id="modal-progress-bar" class="h-full bg-white from-blue-500 to-indigo-500 rounded-full" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Sezon ve Bölüm Listesi -->
+          <div class="p-6 overflow-y-auto space-y-4 flex-1">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <!-- Sezon Filtre Butonları -->
+              <div class="flex flex-wrap gap-1.5" id="modal-seasons-tabs">
+                <!-- JS ile sezon butonları -->
+              </div>
+              <button onclick="markCurrentSeasonWatched()" class="text-xs px-3 py-1.5 rounded-xl bg-white hover:bg-mistral-cream text-mistral-slate transition">
+                ✓ Tüm Sezonu İzlendi İşaretle
+              </button>
+            </div>
+
+            <!-- Bölümler Listesi -->
+            <div class="space-y-2 mt-3" id="modal-episodes-list">
+              <!-- JS ile bölümler -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Toast Bildirimi -->
+      <div id="dizi-toast" class="hidden fixed bottom-6 right-6 py-2.5 px-4 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-2xl transition z-50"></div>
+
+      <!-- İstemci Mantığı -->
   </div>
+
+  <footer class="mt-16 text-center text-xs text-mistral-stone border-t border-mistral-hairline pt-6">
+    <p>Açık Kaynak Standalone Sürüm • Veriler: <a href="https://www.tvmaze.com/api" target="_blank" rel="noopener" class="underline hover:text-mistral-ink">TVmaze API</a> • <a href="https://github.com/Stremio/stremio-addon-sdk" target="_blank" rel="noopener" class="underline hover:text-mistral-ink">Cinemeta</a></p>
+  </footer>
+
+  <script src="js/app.js"></script>
 </body>
 </html>

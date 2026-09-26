@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'vibe_w…hlist';
+const STORAGE_KEY = 'dizi_watchlist_v1';
         let watchlist = [];
         let currentFilter = 'watching';
         let currentModalShow = null;
@@ -43,6 +43,85 @@ const STORAGE_KEY = 'vibe_w…hlist';
           updateBadgesAndStats();
         }
 
+        // Standalone: IMDb bilgisi doğrudan Cinemeta + TVmaze'den (backend proxy yok, ikisi de CORS-açık)
+        async function fetchImdbInfo(imdbId) {
+          let meta = null;
+          let type = 'series';
+
+          try {
+            const sRes = await fetch('https://v3-cinemeta.strem.io/meta/series/' + imdbId + '.json');
+            if (sRes.ok) {
+              const sData = await sRes.json();
+              if (sData && sData.meta && sData.meta.name) { meta = sData.meta; type = 'series'; }
+            }
+          } catch(e) {}
+
+          if (!meta) {
+            try {
+              const mRes = await fetch('https://v3-cinemeta.strem.io/meta/movie/' + imdbId + '.json');
+              if (mRes.ok) {
+                const mData = await mRes.json();
+                if (mData && mData.meta && mData.meta.name) { meta = mData.meta; type = 'movie'; }
+              }
+            } catch(e) {}
+          }
+
+          let tvmEpisodes = null;
+          try {
+            const tvmRes = await fetch('https://api.tvmaze.com/lookup/shows?imdb=' + imdbId);
+            if (tvmRes.ok) {
+              const tvmShow = await tvmRes.json();
+              if (tvmShow && tvmShow.id) {
+                if (!meta) {
+                  meta = {
+                    name: tvmShow.name,
+                    imdbRating: (tvmShow.rating && tvmShow.rating.average) ? String(tvmShow.rating.average) : '8.0',
+                    releaseInfo: tvmShow.premiered ? tvmShow.premiered.substring(0, 4) : '',
+                    poster: (tvmShow.image && (tvmShow.image.original || tvmShow.image.medium)) || '',
+                    genre: tvmShow.genres || [],
+                    description: tvmShow.summary ? tvmShow.summary.replace(/<[^>]*>?/gm, '') : ''
+                  };
+                }
+                const epRes = await fetch('https://api.tvmaze.com/shows/' + tvmShow.id + '/episodes');
+                if (epRes.ok) {
+                  const epData = await epRes.json();
+                  if (Array.isArray(epData)) {
+                    tvmEpisodes = epData.map(e => ({ season: e.season, number: e.number, title: e.name, released: e.airdate || '' }));
+                  }
+                }
+              }
+            }
+          } catch(e) {}
+
+          if (!meta) throw new Error('IMDb kaydı bulunamadı');
+
+          let episodes = [];
+          if (tvmEpisodes && tvmEpisodes.length > 0) {
+            episodes = tvmEpisodes;
+          } else if (meta.videos && meta.videos.length > 0) {
+            episodes = meta.videos.map(v => ({
+              season: v.season,
+              number: v.number || v.episode,
+              title: v.title || v.name || ('Bölüm ' + (v.number || v.episode)),
+              released: v.released ? v.released.substring(0, 10) : ''
+            }));
+          }
+
+          return {
+            success: true,
+            imdbId: imdbId,
+            title: meta.name,
+            type: type,
+            imdbRating: meta.imdbRating || '8.0',
+            year: meta.releaseInfo || meta.year || '',
+            poster: meta.poster || 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&auto=format&fit=crop&q=80',
+            genres: meta.genre || [],
+            cast: meta.cast || [],
+            description: meta.description || '',
+            episodes: episodes
+          };
+        }
+
         // 2. IMDb Linki veya ID'si ile Ekleme
         async function addByImdbUrl() {
           const raw = document.getElementById('input-imdb-url').value.trim();
@@ -68,8 +147,7 @@ const STORAGE_KEY = 'vibe_w…hlist';
             setButtonLoading('btn-imdb-add', false, "📥 IMDb'den Çek & Ekle");
 
           try {
-            const res = await fetch(`/api/dizi/imdb?id=${imdbId}`);
-            const data = await res.json();
+            const data = await fetchImdbInfo(imdbId);
 
             if (!data.success || !data.title) {
               throw new Error('IMDb bilgisi alınamadı');
@@ -175,7 +253,7 @@ const STORAGE_KEY = 'vibe_w…hlist';
             if (t === tab) {
               btn.className = 'px-4 py-1.5 rounded-lg text-xs font-bold bg-blue-500 text-white transition flex items-center gap-1.5 shadow';
             } else {
-              btn.className = 'px-4 py-1.5 rounded-lg text-xs font-bold text-mistral-slate hover:text-white transition flex items-center gap-1.5';
+              btn.className = 'px-4 py-1.5 rounded-lg text-xs font-bold text-mistral-slate hover:text-mistral-ink transition flex items-center gap-1.5';
             }
           });
 
@@ -198,7 +276,8 @@ const STORAGE_KEY = 'vibe_w…hlist';
           }
 
           empty.classList.add('hidden');
-          grid.innerHTML = list.map(show => {
+          window.__renderedList = list;
+          grid.innerHTML = list.map((show, idx) => {
             const inWatchlist = watchlist.find(w => w.id === show.id);
             const total = show.totalEpisodes || 1;
             const watched = show.watchedEpisodes ? show.watchedEpisodes.length : 0;
@@ -232,7 +311,7 @@ const STORAGE_KEY = 'vibe_w…hlist';
                         <span class="text-blue-400 font-bold">%${pct}</span>
                       </div>
                       <div class="w-full h-1.5 rounded-full bg-white overflow-hidden">
-                        <div class="h-full bg-white from-blue-500 to-indigo-500 rounded-full" style="width: ${pct}%;"></div>
+                        <div class="h-full bg-blue-500 rounded-full" style="width: ${pct}%;"></div>
                       </div>
                     </div>
                   ` : ''}
@@ -240,7 +319,7 @@ const STORAGE_KEY = 'vibe_w…hlist';
 
                 <div class="pt-3 border-t border-mistral-hairline flex items-center justify-between mt-3">
                   ${isSearch ? `
-                    <button onclick="addSearchResultToWatchlist('${show.id}', '${show.title.replace(/'/g, "\\\\'")}', '${show.poster}', '${show.imdbRating}', '${show.year}')" class="w-full py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5">
+                    <button onclick="addSearchResultByRenderedIdx(${idx})"" class="w-full py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5">
                       <span>+</span> İzleme Listeme Ekle
                     </button>
                   ` : `
@@ -255,6 +334,13 @@ const STORAGE_KEY = 'vibe_w…hlist';
               </div>
             `;
           }).join('');
+        }
+
+        // İndeks-tabanlı güvenli ekleme (apostroflu dizi adları HTML'i kıramaz)
+        function addSearchResultByRenderedIdx(idx) {
+          const show = (window.__renderedList || [])[idx];
+          if (!show) return;
+          addSearchResultToWatchlist(show.id, show.title, show.poster, show.imdbRating, show.year);
         }
 
         function addSearchResultToWatchlist(id, title, poster, rating, year) {
@@ -301,8 +387,7 @@ const STORAGE_KEY = 'vibe_w…hlist';
           // Eğer bölümler henüz çekilmediyse arka planda tamamla
           if (!show.episodes || show.episodes.length === 0) {
             try {
-              const res = await fetch(`/api/dizi/imdb?id=${show.id}`);
-              const data = await res.json();
+              const data = await fetchImdbInfo(show.id);
               if (data.episodes && data.episodes.length > 0) {
                 show.episodes = data.episodes;
                 show.totalEpisodes = data.episodes.length;
