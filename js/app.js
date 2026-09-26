@@ -420,7 +420,7 @@ const STORAGE_KEY = 'dizi_watchlist_v1';
           // Sezon sekmeleri
           const tabsBox = document.getElementById('modal-seasons-tabs');
           tabsBox.innerHTML = seasons.map(sn => `
-            <button onclick="switchModalSeason(${sn})" class="px-3 py-1.5 rounded-xl text-xs font-bold ${sn === activeModalSeason ? 'bg-blue-600 text-white' : 'bg-white text-mistral-slate hover:text-white'} transition">
+            <button onclick="switchModalSeason(${sn})" class="px-3 py-1.5 rounded-xl text-xs font-bold ${sn === activeModalSeason ? 'bg-blue-600 text-white' : 'bg-white text-mistral-slate hover:text-mistral-ink'} transition">
               Sezon ${sn}
             </button>
           `).join('');
